@@ -64,11 +64,11 @@ const Navigation: React.FC<NavigationProps> = ({ activeTab, onTabChange }) => {
             </div> */}
             <button onClick={() =>
   user
-    ? (() => { localStorage.clear();setUser(''); onTabChange('login'); })()
+    ? (() => { localStorage.clear();setUser(''); navigate('/login'); })()
     : (()=>{onTabChange('login'); navigate('/login');})()}
 >
               {user && <LogOut className='' />}
-               <p >{user?'Logout':''} </p>
+               <p className='font-medium'>{user?'Logout':''} </p>
             </button>
           </div>
         </div>
