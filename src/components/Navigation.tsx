@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Home, Briefcase, FileText, UsersRound, LogInIcon } from 'lucide-react';
+import { Home, Briefcase, FileText, UsersRound, LogOut } from 'lucide-react';
 import {UserContext} from '../state_management/UserContext.tsx';
 import { useContext, useState } from 'react';
 
@@ -67,8 +67,8 @@ const Navigation: React.FC<NavigationProps> = ({ activeTab, onTabChange }) => {
     ? (() => { localStorage.clear();setUser(''); onTabChange('login'); })()
     : (()=>{onTabChange('login'); navigate('/login');})()}
 >
-              <LogInIcon className='' />
-               <p >{user?'Logout':'Login'} </p>
+              {user && <LogOut className='' />}
+               <p >{user?'Logout':''} </p>
             </button>
           </div>
         </div>
