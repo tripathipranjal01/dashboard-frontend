@@ -61,7 +61,7 @@ const Navigation: React.FC<NavigationProps> = ({ activeTab, onTabChange }) => {
             {/* <div className='flex flex-col items-center ml-32 p-4'>
               <UsersRound className='' />
               {user && <p >{user} </p>}
-            </div>
+            </div> */}
             <button onClick={() =>
   user
     ? (() => { localStorage.clear();setUser(''); onTabChange('login'); })()
@@ -69,7 +69,7 @@ const Navigation: React.FC<NavigationProps> = ({ activeTab, onTabChange }) => {
 >
               <LogInIcon className='' />
                <p >{user?'Logout':'Login'} </p>
-            </button> */}
+            </button>
           </div>
         </div>
       </div>
