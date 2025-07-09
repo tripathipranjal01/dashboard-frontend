@@ -16,7 +16,7 @@ const Dashboard: React.FC = () => {
 
   async function FetchAllJobs() {
     try {
-      let reqToServer = await fetch(`http://localhost:8086/api/alljobs`, {
+      let reqToServer = await fetch(`https://dashboardbackend-ijnw.onrender.com`, {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({token,userDetails}),

@@ -497,7 +497,7 @@ const statsData = [
 
     setIsLoading(true);
     try {
-      const res = await fetch("http://localhost:8086/login", {
+      const res = await fetch("https://dashboardbackend-ijnw.onrender.com/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),

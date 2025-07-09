@@ -331,7 +331,7 @@ const JobForm: React.FC<JobFormProps> = ({ job, onCancel, onSuccess, setUserJobs
         currentStatus: formData.status? formData.status : job?.currentStatus,
         userID: userDetails.email, // Include user details
       };
-      const saveJobsToDb = await fetch(`http://localhost:8086/api/jobs`, {
+      const saveJobsToDb = await fetch(`https://dashboardbackend-ijnw.onrender.com/api/jobs`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({jobDetails,userDetails, token}),

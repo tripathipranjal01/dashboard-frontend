@@ -238,7 +238,7 @@ const JobTracker = () => {
 useEffect(() => {
   (async () => {
     try {
-      const requestToServer = await fetch(`http://localhost:8086/api/alljobs`, {
+      const requestToServer = await fetch(`https://dashboardbackend-ijnw.onrender.com/api/alljobs`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -272,7 +272,7 @@ useEffect(() => {
       userID: userDetails?.email,
     };
 
-    const response = await fetch(`http://localhost:8086/api/jobs`, {
+    const response = await fetch(`https://dashboardbackend-ijnw.onrender.com/api/jobs`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -312,7 +312,7 @@ useEffect(() => {
         currentStatus: formData.status,
         userID: userDetails.email, // Include user details
       };
-      const saveJobsToDb = await fetch(`http://localhost:8086/api/jobs`, {
+      const saveJobsToDb = await fetch(`https://dashboardbackend-ijnw.onrender.com/api/jobs`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({jobDetails,userDetails, token}),
@@ -348,7 +348,7 @@ useEffect(() => {
 
   const onDeleteJob = async (jobID: string) => {
   try {
-    const response = await fetch(`http://localhost:8086/api/jobs`, {
+    const response = await fetch(`https://dashboardbackend-ijnw.onrender.com/api/jobs`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -366,7 +366,7 @@ useEffect(() => {
 };
   const onUpdateJobStatus = async (jobID, status, userDetails)=> {
       try {
-        let reqToServer = await fetch(`http://localhost:8086/api/jobs`, {
+        let reqToServer = await fetch(`https://dashboardbackend-ijnw.onrender.com/api/jobs`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
