@@ -520,163 +520,156 @@ const statsData = [
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-indigo-900 flex">
-      {/* Left Panel */}
-      <div data-aos='fade-up' className="flex-1 flex flex-col justify-center px-16 py-12 relative overflow-hidden w-3/5">
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-20 left-20 w-72 h-72 bg-orange-400 rounded-full blur-xl"></div>
-          <div className="absolute bottom-20 right-20 w-72 h-72 bg-purple-400 rounded-full blur-xl"></div>
-        </div>
-
-        <div className="relative z-10 max-w-lg">
-          <div className="flex items-center space-x-4 mb-5">
-            <div className="w-16 h-16 bg-gradient-to-r from-orange-500 to-red-500 rounded-2xl flex items-center justify-center shadow-2xl">
-              <span className="text-white text-2xl font-bold">🔥</span>
-            </div>
-            <div>
-              <h1 className="text-4xl font-bold bg-gradient-to-r from-orange-400 to-red-400 bg-clip-text text-transparent">
-                FLASHFIRE
-              </h1>
-              <p className="text-blue-200 text-sm font-medium">AI-Powered Resume Optimization</p>
-            </div>
-          </div>
-
-          <h2 className="text-5xl font-bold text-white  leading-tight">
-            Transform Your
-            <span className="block bg-gradient-to-r from-orange-400 to-red-400 bg-clip-text text-transparent">
-              Career Journey
-            </span>
-          </h2>
-          <p className="text-xl text-blue-200 leading-relaxed mb-5">
-            Join thousands of professionals who've landed their dream jobs with AI-optimized resumes that beat ATS systems every time.
-            </p>
-          <div className="grid grid-cols-2 gap-3 mb-5 grid-rows-2">
-          {statsData.map((stat, index) => (
-            <StatCard key={index} value={stat.value} label={stat.label} icon={stat.icon} />
-          ))}
-          </div>
-          <p className="text-xl text-blue-200 leading-relaxed">
-            Sign in to continue your journey toward your dream job.
-          </p>
-        </div>
+  <div className="min-h-screen flex flex-col md:flex-row bg-gradient-to-br from-slate-900 via-blue-900 to-indigo-900">
+    {/* Left Panel */}
+    <div className="flex-1 flex flex-col justify-center px-6 md:px-8 py-8 md:py-8 relative ">
+      <div className="absolute inset-0 opacity-10">
+        <div className="absolute top-10 left-10 w-40 h-40 md:w-72 md:h-72 bg-orange-400 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-10 right-10 w-40 h-40 md:w-72 md:h-72 bg-purple-400 rounded-full blur-3xl"></div>
       </div>
 
-      {/* Right Panel */}
-      <div data-aos='fade-left' className="w-1/2 bg-white flex flex-col justify-center px-12 py-12 relative ">
-        <div className="relative z-10">
-          <X onClick={()=>navigate('/')}  className="hover:bg-red-500 text-black hover:text-white rounded-full size-10 duration-300"/>  
-          <div className="text-center mb-10">
-            <h3 className="text-3xl font-bold text-gray-900 mb-3">
-              Sign In
-            </h3>
-            <p className="text-gray-600 text-lg">
-              Enter your credentials to login
-            </p>
+      <div className="relative z-10 max-w-lg mx-auto md:mx-0 text-center md:text-left">
+        <div className="flex justify-center md:justify-start items-center gap-4 mb-6">
+          <div className="w-12 h-12 md:w-16 md:h-16 bg-gradient-to-r from-orange-500 to-red-500 rounded-2xl flex items-center justify-center shadow-2xl">
+            <span className="text-white text-xl md:text-2xl font-bold">🔥</span>
           </div>
+          <div>
+            <h1 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-orange-400 to-red-400 bg-clip-text text-transparent">
+              FLASHFIRE
+            </h1>
+            <p className="text-blue-200 text-xs md:text-sm">AI-Powered Resume Optimization</p>
+          </div>
+        </div>
 
-          <form onSubmit={handleLogin} className="space-y-6">
-            
-            {/* Email */}
-            <div>
-              <label htmlFor="email" className="block text-sm font-semibold text-gray-700 mb-3">
-                Email Address
-              </label>
-              <div className="relative">
-                <Mail className="absolute left-3 top-3 text-gray-400" />
-                <input
-                  type="email"
-                  id="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className={`w-full pl-10 pr-4 py-3 border rounded-lg text-lg ${
-                    errors.email ? "border-red-300 bg-red-50" : "border-gray-300"
-                  }`}
-                  placeholder="you@example.com"
-                />
-              </div>
-              {errors.email && (
-                <p className="text-sm text-red-600 mt-1">{errors.email}</p>
-              )}
-            </div>
+        <h2 className="text-3xl md:text-5xl font-bold text-white leading-tight">
+          Transform Your{" "}
+          <span className="block bg-gradient-to-r from-orange-400 to-red-400 bg-clip-text text-transparent">
+            Career Journey
+          </span>
+        </h2>
 
-            {/* Password */}
-            <div>
-              <label htmlFor="password" className="block text-sm font-semibold text-gray-700 mb-3">
-                Password
-              </label>
-              <div className="relative">
-                <Lock className="absolute left-3 top-3 text-gray-400" />
-                <input
-                  type={showPassword ? "text" : "password"}
-                  id="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className={`w-full pl-10 pr-10 py-3 border rounded-lg text-lg ${
-                    errors.password ? "border-red-300 bg-red-50" : "border-gray-300"
-                  }`}
-                  placeholder="********"
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-3"
-                >
-                  {showPassword ? (
-                    <EyeOff className="text-gray-400" />
-                  ) : (
-                    <Eye className="text-gray-400" />
-                  )}
-                </button>
-              </div>
-              {errors.password && (
-                <p className="text-sm text-red-600 mt-1">{errors.password}</p>
-              )}
-            </div>
+        <p className="text-base md:text-lg text-blue-200 mt-4 mb-6">
+          Join thousands of professionals who landed dream jobs with AI-optimized resumes that beat ATS.
+        </p>
 
-            {/* Submit */}
-            <button
-              type="submit"
-              disabled={isLoading}
-              className="w-full bg-gradient-to-r from-orange-500 to-red-500 text-white py-3 rounded-lg text-lg flex justify-center items-center space-x-2"
+        <div className="grid grid-cols-2 gap-3 md:gap-4 mb-6">
+          {statsData.map((stat, i) => (
+            <div
+              key={i}
+              className="bg-white/10 backdrop-blur-md rounded-xl p-4 shadow hover:scale-105 transition transform"
             >
-              {isLoading ? (
-                <span className="animate-spin border-b-2 border-white w-6 h-6 rounded-full"></span>
-              ) : (
-                <>
-                  <span>Login</span>
-                  <ArrowRight />
-                </>
-              )}
-            </button>
+              <div className="flex items-center gap-2 mb-2">
+                <div className="bg-white/10 p-2 rounded-lg">{stat.icon}</div>
+                <span className="text-lg font-semibold text-white">{stat.value}</span>
+              </div>
+              <p className="text-xs text-gray-300">{stat.label}</p>
+            </div>
+          ))}
+        </div>
 
-            {/* Response message */}
-            {response?.message && (
-              <p
-                className={`text-center mt-4 text-sm ${
-                  response?.message === "Login Sucess..!" ? "text-green-500" : "text-red-500"
+        <p className="text-base md:text-lg text-blue-200">
+          Sign in to continue your journey toward your dream job.
+        </p>
+      </div>
+    </div>
+
+    {/* Right Panel */}
+    <div className="w-full md:w-1/2 bg-white flex flex-col justify-center px-6 md:px-12 py-8 md:py-12">
+      <div className="max-w-md mx-auto w-full">
+        <div className="text-center mb-6">
+          <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">Sign In</h3>
+          <p className="text-sm md:text-lg text-gray-600">Enter your credentials to login</p>
+        </div>
+
+        <form onSubmit={handleLogin} className="space-y-5">
+          {/* Email */}
+          <div>
+            <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+              Email Address
+            </label>
+            <div className="relative">
+              <Mail className="absolute left-3 top-3 text-gray-400" />
+              <input
+                type="email"
+                id="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className={`w-full pl-10 pr-4 py-3 rounded-lg border text-sm md:text-base ${
+                  errors.email ? "border-red-300 bg-red-50" : "border-gray-300"
                 }`}
-              >
-                {response?.message}
-              </p>
-            )}
-          </form>
-
-          {/* Register Button */}
-          {/* <div className="mt-8 text-center">
-            <button
-              onClick={() => navigate("/register")}
-              className="w-full bg-gray-100 hover:bg-gray-200 text-gray-800 font-semibold py-3 px-6 rounded-lg text-lg border border-gray-300"
-            >
-              Register
-            </button>
-          </div> */}
-
-          <div className="mt-6 flex justify-center space-x-4 text-sm text-gray-500">
-            <CheckCircle className="w-4 h-4 text-green-500" />
-            <span>Secure & Private</span>
+                placeholder="you@example.com"
+              />
+            </div>
+            {errors.email && <p className="text-xs text-red-600 mt-1">{errors.email}</p>}
           </div>
+
+          {/* Password */}
+          <div>
+            <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
+              Password
+            </label>
+            <div className="relative">
+              <Lock className="absolute left-3 top-3 text-gray-400" />
+              <input
+                type={showPassword ? "text" : "password"}
+                id="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className={`w-full pl-10 pr-10 py-3 rounded-lg border text-sm md:text-base ${
+                  errors.password ? "border-red-300 bg-red-50" : "border-gray-300"
+                }`}
+                placeholder="********"
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3 top-3"
+              >
+                {showPassword ? (
+                  <EyeOff className="text-gray-400" />
+                ) : (
+                  <Eye className="text-gray-400" />
+                )}
+              </button>
+            </div>
+            {errors.password && <p className="text-xs text-red-600 mt-1">{errors.password}</p>}
+          </div>
+
+          {/* Submit */}
+          <button
+            type="submit"
+            disabled={isLoading}
+            className="w-full bg-gradient-to-r from-orange-500 to-red-500 text-white py-3 rounded-lg text-base flex justify-center items-center gap-2 hover:scale-[1.02] transition"
+          >
+            {isLoading ? (
+              <span className="animate-spin border-b-2 border-white w-5 h-5 rounded-full"></span>
+            ) : (
+              <>
+                <span>Login</span>
+                <ArrowRight />
+              </>
+            )}
+          </button>
+
+          {/* Response message */}
+          {response?.message && (
+            <p
+              className={`text-center text-sm mt-2 ${
+                response?.message === "Login Sucess..!" ? "text-green-500" : "text-red-500"
+              }`}
+            >
+              {response?.message}
+            </p>
+          )}
+        </form>
+
+        <div className="mt-6 flex justify-center gap-3 text-xs text-gray-500">
+          <CheckCircle className="w-4 h-4 text-green-500" />
+          <span>Secure & Private</span>
         </div>
       </div>
     </div>
-  );
+  </div>
+);
+
 }

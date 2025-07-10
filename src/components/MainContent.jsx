@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate, Outlet } from 'react-router-dom';
+import React, { useState, useEffect, useContext } from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate, Outlet, useNavigate } from 'react-router-dom';
 import Navigation from './Navigation';
 import Dashboard from './Dashboard';
 import JobTracker from './JobTracker';
 import ResumeOptimizer from './ResumeOptimizer';
+import { UserContext } from '../state_management/UserContext';
 // import {BaseResume} from '../types/index'
 
 
@@ -11,6 +12,15 @@ export default function MainContent() {
   const [activeTab, setActiveTab] = useState('dashboard');
   const [showPDFUploader, setShowPDFUploader] = useState(false);
   const [baseResume, setBaseResume] = useState(null);
+  const {userDetails, token} = useContext(UserContext);
+  const navigate = useNavigate();
+  useEffect(()=>{
+if(!token || token.length==0 ){
+    navigate('/login');
+  }
+  })
+  
+  
 
   return (
     <div className="min-h-screen bg-gray-50">

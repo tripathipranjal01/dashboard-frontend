@@ -23,7 +23,7 @@ const Dashboard: React.FC = () => {
     });
     let responseFromServer = await reqToServer.json();
     if (responseFromServer.message === 'all Jobs List') {
-      setJobs(responseFromServer.allJobs);
+      setJobs(responseFromServer?.allJobs);
       console.log('User jobs:', responseFromServer?.allJobs);
     } else {
       console.error('Error fetching jobs:', responseFromServer.message);

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate, Outlet } from 'react-router-dom';
 // import Navigation from './components/Navigation';
 // import Dashboard from './components/Dashboard';
@@ -9,6 +9,7 @@ import Register from './components/Register';
 import MainContent from './components/MainContent';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
+import { UserContext } from './state_management/UserContext.tsx';
 // import PDFUploader from './components/PDFUploader';
 // import { useJobs } from './hooks/useJobs.ts';
 // import { useOptimizedResumes } from './hooks/useOptimizedResumes.ts';
@@ -38,7 +39,7 @@ function App() {
     // if (savedResume) {
     //   setBaseResume(JSON.parse(savedResume));
     // }
-
+let {userDetails, token} = useContext(UserContext);
   useEffect(() => {
     AOS.init({
       duration: 800, // animation duration in ms
