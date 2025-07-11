@@ -16,7 +16,7 @@ const Dashboard: React.FC = () => {
 
   async function FetchAllJobs() {
     try {
-      let reqToServer = await fetch(`https://dashboardbackend-ijnw.onrender.com`, {
+      let reqToServer = await fetch(`https://dashboardbackend-ijnw.onrender.com/api/alljobs`, {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({token,userDetails}),
@@ -24,6 +24,7 @@ const Dashboard: React.FC = () => {
     let responseFromServer = await reqToServer.json();
     if (responseFromServer.message === 'all Jobs List') {
       setJobs(responseFromServer?.allJobs);
+      let interviewing = jobs?.filter((items)=>items?.currentStatus == 'interviewing').length
       console.log('User jobs:', responseFromServer?.allJobs);
     } else {
       console.error('Error fetching jobs:', responseFromServer.message);
@@ -34,6 +35,7 @@ const Dashboard: React.FC = () => {
   }
   useEffect(() => {
     FetchAllJobs();
+    
   },[])
   const stats = calculateDashboardStats(jobs);
   
@@ -66,7 +68,7 @@ const Dashboard: React.FC = () => {
                 <Briefcase className="w-7 h-7 text-white" />
               </div>
               <div className="text-right">
-                <p className="text-3xl font-bold text-gray-900">{stats.total}</p>
+                <p className="text-3xl font-bold text-gray-900">{jobs?.length}</p>
                 <p className="text-sm font-medium text-gray-500">Total Applications</p>
               </div>
             </div>
@@ -85,7 +87,7 @@ const Dashboard: React.FC = () => {
                 <Users className="w-7 h-7 text-white" />
               </div>
               <div className="text-right">
-                <p className="text-3xl font-bold text-gray-900">{stats.interviewing}</p>
+                <p className="text-3xl font-bold text-gray-900">{jobs?.filter(item=>item.currentStatus == 'interviewing').length}</p>
                 <p className="text-sm font-medium text-gray-500">Active Interviews</p>
               </div>
             </div>
@@ -104,7 +106,7 @@ const Dashboard: React.FC = () => {
                 <Award className="w-7 h-7 text-white" />
               </div>
               <div className="text-right">
-                <p className="text-3xl font-bold text-gray-900">{stats.offer}</p>
+                <p className="text-3xl font-bold text-gray-900">{jobs?.filter(item=>item.currentStatus == 'offer').length}</p>
                 <p className="text-sm font-medium text-gray-500">Offers Received</p>
               </div>
             </div>
@@ -141,7 +143,7 @@ const Dashboard: React.FC = () => {
           <div className="bg-white rounded-xl shadow-md border border-gray-100 p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-lg font-semibold text-gray-900">{stats.applied}</p>
+                <p className="text-lg font-semibold text-gray-900">{jobs?.filter(item=>item.currentStatus == 'applied').length}</p>
                 <p className="text-sm text-gray-600">Applications Sent</p>
               </div>
               <FileText className="w-8 h-8 text-blue-500" />
@@ -151,7 +153,7 @@ const Dashboard: React.FC = () => {
           <div className="bg-white rounded-xl shadow-md border border-gray-100 p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-lg font-semibold text-gray-900">{responseRate}%</p>
+                <p className="text-lg font-semibold text-gray-900">{((jobs?.filter(item=>item.currentStatus == 'interviewing').length + jobs?.filter(item=>item.currentStatus == 'offer').length + jobs?.filter(item=>item.currentStatus == 'rejected').length)/jobs.length)*100}%</p>
                 <p className="text-sm text-gray-600">Response Rate</p>
               </div>
               <Target className="w-8 h-8 text-green-500" />
@@ -161,7 +163,7 @@ const Dashboard: React.FC = () => {
           <div className="bg-white rounded-xl shadow-md border border-gray-100 p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-lg font-semibold text-gray-900">{stats.saved}</p>
+                <p className="text-lg font-semibold text-gray-900">{jobs?.filter(item=>item.currentStatus == 'saved').length}</p>
                 <p className="text-sm text-gray-600">Jobs Saved</p>
               </div>
               <Clock className="w-8 h-8 text-amber-500" />
@@ -175,11 +177,11 @@ const Dashboard: React.FC = () => {
           
           <div className="grid grid-cols-2 md:grid-cols-5 gap-6">
             {[
-              { status: 'saved', label: 'Saved', count: stats.saved, color: 'bg-gray-500', icon: Clock },
-              { status: 'applied', label: 'Applied', count: stats.applied, color: 'bg-blue-500', icon: FileText },
-              { status: 'interviewing', label: 'Interviewing', count: stats.interviewing, color: 'bg-amber-500', icon: Users },
-              { status: 'offer', label: 'Offers', count: stats.offer, color: 'bg-green-500', icon: CheckCircle },
-              { status: 'rejected', label: 'Rejected', count: stats.rejected, color: 'bg-red-500', icon: XCircle },
+              { status: 'saved', label: 'Saved', count: jobs?.filter(item=>item.currentStatus == 'saved').length, color: 'bg-gray-500', icon: Clock },
+              { status: 'applied', label: 'Applied', count: jobs?.filter(item=>item.currentStatus == 'applied').length, color: 'bg-blue-500', icon: FileText },
+              { status: 'interviewing', label: 'Interviewing', count: jobs?.filter(item=>item.currentStatus == 'interviewing').length, color: 'bg-amber-500', icon: Users },
+              { status: 'offer', label: 'Offers', count: jobs?.filter(item=>item.currentStatus == 'offer').length, color: 'bg-green-500', icon: CheckCircle },
+              { status: 'rejected', label: 'Rejected', count: jobs?.filter(item=>item.currentStatus == 'rejected').length, color: 'bg-red-500', icon: XCircle },
             ].map(({ status, label, count, color, icon: Icon }) => (
               <div key={status} className="text-center">
                 <div className={`w-16 h-16 ${color} rounded-full flex items-center justify-center mx-auto mb-3`}>
