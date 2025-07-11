@@ -266,6 +266,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { X, Calendar, Building, FileText, Briefcase, Link } from "lucide-react";
 import { Job, JobStatus } from "../types";
 import { UserContext } from "../state_management/UserContext";
+import { useNavigate } from "react-router-dom";
 
 interface JobFormProps {
   job?: Job | null;
@@ -287,6 +288,7 @@ const JobForm: React.FC<JobFormProps> = ({ job, onCancel, onSuccess, setUserJobs
   const [error, setError] = useState<string | null>(null); 
   const [jobsData, setJobsData] = useState([]);
   const { userDetails, token } = useContext(UserContext);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (job) {
@@ -344,6 +346,10 @@ const JobForm: React.FC<JobFormProps> = ({ job, onCancel, onSuccess, setUserJobs
         setUserJobs(responseFromServer?.NewJobList);
         setJobsData(responseFromServer?.NewJobList);
         return;
+      }
+      else if(responseFromServer.message = 'invalid token please login again'){
+        localStorage.clear();
+        navigate('/login');
       }
       if (onSuccess) onSuccess();
       onCancel(); // close modal

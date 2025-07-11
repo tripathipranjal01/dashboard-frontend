@@ -217,6 +217,7 @@ import { Job, JobStatus } from '../types';
 import JobForm from './JobForm';
 import JobCard from './JobCard';
 import { UserContext } from '../state_management/UserContext.tsx'
+import { useNavigate } from 'react-router-dom';
 
 const JobTracker = () => {
   const [showJobForm, setShowJobForm] = useState(false);
@@ -226,6 +227,7 @@ const JobTracker = () => {
 
   const {userDetails, token} = useContext(UserContext);
   // const userDetails = context?.userDetails || {};
+  const navigate = useNavigate();
 
   const statusColumns: { status: JobStatus; label: string; color: string }[] = [
     { status: 'saved', label: 'Saved', color: 'bg-gray-50 border-gray-200' },
@@ -249,6 +251,10 @@ useEffect(() => {
       if (responseFromServer.message === 'all Jobs List') {
         setUserJobs(responseFromServer?.allJobs);
         console.log(userJobs);
+      }
+      else if(responseFromServer.message = 'invalid token please login again'){
+        localStorage.clear();
+        Navigate('/');
       }
     } catch (error) {
       console.log(error);

@@ -3,6 +3,7 @@ import { Briefcase, FileText, TrendingUp, Users, Target, CheckCircle, XCircle, C
 import { Job } from '../types';
 import { calculateDashboardStats } from '../utils/storage';
 import { UserContext } from '../state_management/UserContext.js';
+import { useNavigate } from 'react-router-dom';
 
 interface DashboardProps {
   jobs: Job[];
@@ -13,6 +14,7 @@ const Dashboard: React.FC = () => {
   const context = useContext(UserContext);
   const userDetails = context?.userDetails || {};
   const token = context?.token || null;
+  const navigate = useNavigate();
 
   async function FetchAllJobs() {
     try {
@@ -26,7 +28,11 @@ const Dashboard: React.FC = () => {
       setJobs(responseFromServer?.allJobs);
       let interviewing = jobs?.filter((items)=>items?.currentStatus == 'interviewing').length
       console.log('User jobs:', responseFromServer?.allJobs);
-    } else {
+    }else if(responseFromServer.message == 'invalid token please login again'){
+      localStorage.clear();
+      navigate('/login');
+    }
+    else {
       console.error('Error fetching jobs:', responseFromServer.message);
     }     
     } catch (error) {
