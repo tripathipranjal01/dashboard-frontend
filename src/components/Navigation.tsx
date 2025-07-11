@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Home, Briefcase, FileText, UsersRound, LogOut } from 'lucide-react';
+import { Home, Briefcase, FileText, UsersRound, LogOut, User } from 'lucide-react';
 import {UserContext} from '../state_management/UserContext.tsx';
 import { useContext, useState } from 'react';
+import Profile from './Profile';
 
 
 interface NavigationProps {
@@ -12,6 +13,7 @@ interface NavigationProps {
 
 const Navigation: React.FC<NavigationProps> = ({ activeTab, onTabChange }) => {
   let navigate = useNavigate();
+  const [showProfile, setShowProfile] = useState(false);
   const tabs = [
     { id: 'dashboard', label: 'Dashboard', icon: Home },
     { id: 'jobs', label: 'Job Tracker', icon: Briefcase },
@@ -24,12 +26,23 @@ const Navigation: React.FC<NavigationProps> = ({ activeTab, onTabChange }) => {
   },[userDetails]);
 
   return (
-    <nav className="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-50">
+    <>
+      <nav className="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           <div className="flex items-center space-x-4">
             <div className="flex items-center space-x-3">
               <div className="w-8 h-8 bg-gradient-to-r from-orange-500 to-red-500 rounded-lg flex items-center justify-center">
+              
+              {/* Profile Button */}
+              <button
+                onClick={() => setShowProfile(!showProfile)}
+                className="flex items-center space-x-2 px-3 py-2 rounded-lg font-medium transition-colors text-gray-600 hover:text-gray-900 hover:bg-gray-100"
+              >
+                <User className="w-4 h-4" />
+                <span>Profile</span>
+              </button>
+              
                 <FileText className="w-5 h-5 text-white" />
               </div>
               <div>
@@ -72,7 +85,23 @@ const Navigation: React.FC<NavigationProps> = ({ activeTab, onTabChange }) => {
             </button>
           </div>
         </div>
-      </div>
+      </nav>
+      
+      {/* Profile Modal */}
+      {showProfile && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="relative">
+            <button
+              onClick={() => setShowProfile(false)}
+              className="absolute -top-2 -right-2 w-8 h-8 bg-white rounded-full shadow-lg flex items-center justify-center text-gray-600 hover:text-gray-800 z-10"
+            >
+              ×
+            </button>
+            <Profile />
+          </div>
+        </div>
+      )}
+    </>
     </nav>
     
   );

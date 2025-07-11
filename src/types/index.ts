@@ -12,6 +12,12 @@ export interface Job {
   userID?: string; // Add user association
   createdAt: string;
   updatedAt: string;
+  resumeScreenshot?: string; // Add resume screenshot field
+  timeline?: Array<{
+    status: JobStatus;
+    date: string;
+    note?: string;
+  }>; // Add timeline field
 }
 
 export interface OptimizedResume {
