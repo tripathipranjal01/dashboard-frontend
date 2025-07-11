@@ -201,64 +201,128 @@ const Dashboard: React.FC = () => {
         </div>
 
         {/* Recent Activity */}
-        <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-8">
-          <h3 className="text-2xl font-bold text-gray-900 mb-6">Recent Activity</h3>
-          
-          {recentJobs.length > 0 ? (
-            <div className="space-y-4">
-              {recentJobs.map((job) => {
-                const statusConfig = {
-                  saved: { color: 'bg-gray-100 text-gray-700 border-gray-200', icon: Clock },
-                  applied: { color: 'bg-blue-100 text-blue-700 border-blue-200', icon: FileText },
-                  interviewing: { color: 'bg-amber-100 text-amber-700 border-amber-200', icon: Users },
-                  offer: { color: 'bg-green-100 text-green-700 border-green-200', icon: CheckCircle },
-                  rejected: { color: 'bg-red-100 text-red-700 border-red-200', icon: XCircle },
-                  deleted: { color: 'bg-gray-100 text-gray-700 border-gray-200', icon: XCircle },
-                };
-                 const statusKey = job.currentStatus ?? 'saved';
-                const config =
-                        statusConfig[statusKey] ??
-                        {
-                          color: 'bg-gray-100 text-gray-700 border-gray-200',
-                          icon: Clock,
-                        };
 
-  const Icon = config.icon;
-                
-                return (
-                  <div key={job.jobID} className="flex items-center justify-between p-4 rounded-xl border border-gray-100 hover:bg-gray-50 transition-colors">
-                    <div className="flex items-center space-x-4">
-                      <div className={`w-12 h-12 rounded-xl border flex items-center justify-center ${config.color}`}>
-                        <Icon className="w-6 h-6" />
-                      </div>
-                      <div>
-                        <p className="font-semibold text-gray-900">{job.title}</p>
-                        <p className="text-sm text-gray-600">{job.company}</p>
-                      </div>
-                    </div>
-                    <div className="text-right">
-                      <span className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium capitalize border ${config.color}`}>
-                        {job.status}
-                      </span>
-                      <p className="text-xs text-gray-500 mt-1">
-                        {new Date(job.updatedAt).toLocaleDateString()}
-                      </p>
-                    </div>
-                  </div>
-                );
-              })}
+{/* …inside your component… */}
+<div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-8">
+  <h3 className="text-2xl font-bold text-gray-900 mb-6">Recent Activity</h3>
+
+  {recentJobs.length > 0 ? (
+    <div className="space-y-4">
+      {recentJobs.map((job) => {
+        // Determine status key from the same field you use elsewhere
+        const key = (job.currentStatus || 'saved').toLowerCase();
+
+        // Configuration for each status
+        const statusConfig: Record<string, {
+          color: string;
+          icon: React.ComponentType<any>;
+          label: string;
+        }> = {
+          saved: {
+            color: 'bg-gray-100 text-gray-700 border-gray-200',
+            icon: Clock,
+            label: 'Saved',
+          },
+          applied: {
+            color: 'bg-blue-100 text-blue-700 border-blue-200',
+            icon: FileText,
+            label: 'Applied',
+          },
+          interviewing: {
+            color: 'bg-amber-100 text-amber-700 border-amber-200',
+            icon: Users,
+            label: 'Interviewing',
+          },
+          offer: {
+            color: 'bg-green-100 text-green-700 border-green-200',
+            icon: CheckCircle,
+            label: 'Offer',
+          },
+          rejected: {
+            color: 'bg-red-100 text-red-700 border-red-200',
+            icon: XCircle,
+            label: 'Rejected',
+          },
+          deleted: {
+            color: 'bg-gray-100 text-gray-700 border-gray-200',
+            icon: XCircle,
+            label: 'Deleted',
+          },
+        };
+
+        const config = statusConfig[key] || statusConfig.saved;
+        const Icon   = config.icon;
+
+        // Parse the ISO timestamp
+        const date = new Date(job.updatedAt);
+        const displayDate = isNaN(date.getTime())
+          ? 'Invalid Date'
+          : date.toLocaleDateString();
+
+        return (
+          <div
+            key={job.jobID}
+            className="flex items-center justify-between p-4 rounded-xl border border-gray-100 hover:bg-gray-50 transition-colors"
+          >
+            {/* Icon + Title/Company */}
+            <div className="flex items-center space-x-4">
+              <div
+                className={`w-12 h-12 rounded-xl border flex items-center justify-center ${config.color}`}
+              >
+                <Icon className="w-6 h-6" />
+              </div>
+              <div>
+                <p className="font-semibold text-gray-900">
+                  {job.jobTitle}
+                </p>
+                <p className="text-sm text-gray-600">
+                  {job.companyName}
+                </p>
+              </div>
             </div>
-          ) : (
-            <div className="text-center py-12">
-              <Briefcase className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-              <h4 className="text-lg font-medium text-gray-900 mb-2">No applications yet</h4>
-              <p className="text-gray-600 mb-6">Start by adding your first job application to see your progress here.</p>
-              <button className="bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white px-6 py-3 rounded-lg font-medium transition-all duration-200 transform hover:scale-105">
-                Add Your First Job
-              </button>
+
+            {/* Status Pill + Date */}
+            <div className="text-right">
+              <span
+                className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium capitalize border ${config.color}`}
+              >
+                {config.label}
+              </span>
+              <p className="text-xs text-gray-500 mt-1">
+                {displayDate}
+              </p>
             </div>
-          )}
-        </div>
+          </div>
+        );
+      })}
+    </div>
+  ) : (
+    <div className="text-center py-12">
+      <Briefcase className="w-16 h-16 text-gray-400 mx-auto mb-4" />
+      <h4 className="text-lg font-medium text-gray-900 mb-2">
+        No applications yet
+      </h4>
+      <p className="text-gray-600 mb-6">
+        Start by adding your first job application to see your progress here.
+      </p>
+      <button className="bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white px-6 py-3 rounded-lg font-medium transition-all duration-200 transform hover:scale-105">
+        Add Your First Job
+      </button>
+    </div>
+  )}
+</div>
+
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
       </div>
     </div>
   );
